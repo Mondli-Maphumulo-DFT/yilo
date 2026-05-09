@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YiLo — The law, simplified.</title>
+<meta name="description" content="One intake. Every Master's Office form. YiLo automates deceased-estate administration for South African legal practices, at R650 per matter." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0f1420;
+    --paper: #f5f1e8;
+    --paper-2: #ede6d4;
+    --gold: #b08a3e;
+    --gold-soft: #d4b574;
+    --rule: #2a2f3e;
+    --muted: #6a7080;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+
+  .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  /* ─────────── HEADER ─────────── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 22px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(245, 241, 232, 0.85);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  header.scrolled { border-bottom-color: rgba(15, 20, 32, 0.08); }
+
+  .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .wordmark::after {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateY(-4px);
+  }
+
+  nav { display: flex; gap: 36px; align-items: center; }
+  nav a {
+    color: var(--ink); text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 0.55; }
+  nav a.cta {
+    background: var(--ink); color: var(--paper);
+    padding: 10px 20px; border-radius: 999px;
+    font-weight: 500;
+  }
+  nav a.cta:hover { opacity: 1; background: #1a2030; }
+
+  /* ─────────── HERO ─────────── */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; width: 50%;
+    background:
+      radial-gradient(ellipse at top right, rgba(176, 138, 62, 0.08), transparent 60%),
+      linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
+    z-index: -1;
+  }
+
+  .hero-content { max-width: 580px; }
+
+  .eyebrow {
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before {
+    content: ''; width: 30px; height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  h1.headline {
+    font-size: clamp(48px, 6.5vw, 84px);
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  h1.headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  .lede {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    opacity: 0.78;
+    margin-bottom: 44px;
+    max-width: 520px;
+  }
+
+  .hero-cta {
+    display: flex; gap: 16px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    padding: 16px 32px; border-radius: 999px;
+    text-decoration: none; font-weight: 500;
+    font-size: 15px;
+    transition: transform 0.2s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); background: #1a2030; }
+  .btn-primary svg { transition: transform 0.2s; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+
+  .btn-secondary {
+    color: var(--ink); text-decoration: none;
+    font-weight: 500; font-size: 15px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+  }
+  .btn-secondary:hover { opacity: 0.6; }
+
+  /* Hero visual: stylised stack of forms */
+  .hero-visual {
+    position: relative;
+    height: 540px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .doc {
+    position: absolute;
+    width: 320px; height: 440px;
+    background: white;
+    border: 1px solid rgba(15, 20, 32, 0.1);
+    box-shadow: 0 30px 60px -20px rgba(15, 20, 32, 0.18);
+    border-radius: 2px;
+    padding: 32px 28px;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .doc-1 { transform: rotate(-8deg) translate(-80px, 30px); z-index: 1; }
+  .doc-2 { transform: rotate(-2deg) translate(0, 0); z-index: 2; }
+  .doc-3 { transform: rotate(6deg) translate(80px, -30px); z-index: 3; }
+
+  .hero-visual:hover .doc-1 { transform: rotate(-12deg) translate(-110px, 30px); }
+  .hero-visual:hover .doc-3 { transform: rotate(10deg) translate(110px, -30px); }
+
+  .doc-header { font-family: 'Fraunces', serif; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 6px; }
+  .doc-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px; margin-bottom: 24px; line-height: 1.2; }
+  .doc-line { height: 1px; background: rgba(15, 20, 32, 0.15); margin: 12px 0; position: relative; }
+  .doc-line::before {
+    content: ''; position: absolute; top: -8px;
+    background: var(--ink); height: 5px; border-radius: 1px;
+  }
+  .doc-line.short::before { width: 35%; }
+  .doc-line.med::before   { width: 60%; }
+  .doc-line.long::before  { width: 80%; }
+  .doc-line.gold::before  { background: var(--gold); }
+  .doc-tag { display: inline-block; padding: 3px 10px; background: rgba(176, 138, 62, 0.12); color: var(--gold); border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+
+  /* ─────────── PROBLEM SECTION ─────────── */
+  section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
+
+  .section-eyebrow {
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 500;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(15, 20, 32, 0.08);
+    margin-top: 80px;
+    border: 1px solid rgba(15, 20, 32, 0.08);
+  }
+
+  .problem {
+    background: var(--paper);
+    padding: 48px 40px;
+    transition: background 0.3s;
+  }
+  .problem:hover { background: var(--paper-2); }
+
+  .problem-num {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .problem h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .problem p { color: var(--ink); opacity: 0.72; font-size: 15px; line-height: 1.55; }
+
+  /* ─────────── SOLUTION SECTION ─────────── */
+  .solution {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 140px 48px;
+    margin-top: 80px;
+  }
+  .solution-inner { max-width: 1200px; margin: 0 auto; }
+  .solution h2 { color: var(--paper); }
+  .solution h2 em { color: var(--gold-soft); }
+  .solution .section-eyebrow { color: var(--gold-soft); }
+
+  .solution-flow {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 2fr;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .flow-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 32px;
+    border-radius: 4px;
+    min-height: 280px;
+    display: flex; flex-direction: column;
+  }
+  .flow-card .doc-header { color: var(--gold-soft); }
+  .flow-card .label { color: var(--gold-soft); margin-bottom: 12px; }
+  .flow-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .flow-card p { font-size: 14px; color: rgba(245, 241, 232, 0.7); line-height: 1.55; }
+
+  .flow-arrow {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    color: var(--gold-soft);
+    text-align: center;
+  }
+
+  .flow-output {
+    display: grid;
+    gap: 12px;
+  }
+  .output-form {
+    background: rgba(245, 241, 232, 0.04);
+    border-left: 2px solid var(--gold-soft);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .output-form .code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold-soft);
+    font-weight: 500;
+    min-width: 60px;
+  }
+  .output-form .name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .output-form .meta {
+    margin-left: auto;
+    font-size: 12px;
+    color: rgba(245, 241, 232, 0.5);
+  }
+
+  /* ─────────── COMPARISON SECTION ─────────── */
+  .comparison-table {
+    margin-top: 60px;
+    background: white;
+    border: 1px solid rgba(15, 20, 32, 0.1);
+  }
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid rgba(15, 20, 32, 0.08);
+  }
+  .comparison-row:last-child { border-bottom: none; }
+  .comparison-row.head {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .comparison-row > div {
+    padding: 20px 28px;
+    border-right: 1px solid rgba(15, 20, 32, 0.08);
+  }
+  .comparison-row.head > div { border-right-color: rgba(245, 241, 232, 0.1); }
+  .comparison-row > div:last-child { border-right: none; }
+  .comparison-row.head .yilo-cell { background: var(--gold); color: var(--ink); }
+  .comparison-row .yilo-cell { background: rgba(176, 138, 62, 0.06); }
+  .comparison-row .label { font-weight: 500; }
+  .comparison-row .figure {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .comparison-row .figure.win { color: var(--gold); }
+  .comparison-row .figure small { font-size: 13px; font-weight: 400; opacity: 0.7; }
+
+  /* ─────────── PRICING ─────────── */
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 80px;
+  }
+  .price-card {
+    background: white;
+    border: 1px solid rgba(15, 20, 32, 0.1);
+    padding: 40px 36px;
+    border-radius: 4px;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured {
+    background: var(--ink); color: var(--paper);
+    border-color: var(--ink);
+  }
+  .price-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute; top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold); color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+  .price-card .tier {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .price-card .target {
+    font-size: 14px; opacity: 0.65; margin-bottom: 32px;
+  }
+  .price-card .amount {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 500;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .price-card .amount small { font-size: 18px; opacity: 0.7; }
+  .price-card .per {
+    font-size: 13px; opacity: 0.65;
+    margin-bottom: 32px;
+  }
+  .price-card .plus {
+    font-size: 14px; margin-bottom: 28px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(15, 20, 32, 0.1);
+  }
+  .price-card.featured .plus { border-top-color: rgba(245, 241, 232, 0.1); }
+  .price-card .plus strong { font-weight: 600; }
+
+  .price-card ul {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+  .price-card li {
+    padding: 8px 0;
+    font-size: 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .price-card li::before {
+    content: '✓'; color: var(--gold);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .price-card.featured li::before { color: var(--gold-soft); }
+
+  .price-card .btn-card {
+    display: block; text-align: center;
+    padding: 14px 24px;
+    background: var(--ink); color: var(--paper);
+    text-decoration: none; font-weight: 500; font-size: 14px;
+    border-radius: 999px;
+    transition: transform 0.2s;
+  }
+  .price-card.featured .btn-card { background: var(--gold); color: var(--ink); }
+  .price-card .btn-card:hover { transform: translateY(-2px); }
+
+  /* ─────────── PROOF / STATS ─────────── */
+  .proof {
+    padding: 100px 48px;
+    background: var(--paper-2);
+    margin-top: 0;
+  }
+  .proof-inner { max-width: 1200px; margin: 0 auto; }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(15, 20, 32, 0.1);
+    margin-top: 60px;
+  }
+  .stat {
+    background: var(--paper-2);
+    padding: 36px 28px;
+  }
+  .stat .num {
+    font-family: 'Fraunces', serif;
+    font-size: 64px; font-weight: 500;
+    line-height: 1; margin-bottom: 12px;
+    color: var(--gold);
+  }
+  .stat .num small { font-size: 28px; }
+  .stat .label {
+    font-size: 14px; opacity: 0.75; line-height: 1.4;
+  }
+
+  /* ─────────── CTA / SIGNUP ─────────── */
+  .signup {
+    padding: 140px 48px;
+    text-align: center;
+  }
+  .signup-inner { max-width: 720px; margin: 0 auto; }
+  .signup h2 { margin: 0 auto 20px; }
+  .signup p {
+    font-size: 18px; opacity: 0.72;
+    margin-bottom: 48px;
+    max-width: 540px;
+    margin-left: auto; margin-right: auto;
+  }
+
+  form.early-access {
+    display: flex; gap: 12px;
+    max-width: 520px; margin: 0 auto;
+  }
+  form.early-access input {
+    flex: 1;
+    padding: 18px 24px;
+    border: 1px solid var(--ink);
+    background: white;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    border-radius: 999px;
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+  form.early-access input:focus {
+    box-shadow: 0 0 0 3px rgba(176, 138, 62, 0.2);
+  }
+  form.early-access button {
+    padding: 18px 32px;
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: 999px;
+    font-family: inherit; font-weight: 500; font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  form.early-access button:hover { transform: translateY(-2px); }
+
+  .form-note {
+    margin-top: 20px;
+    font-size: 13px; opacity: 0.55;
+  }
+  .signup-success {
+    background: rgba(176, 138, 62, 0.1);
+    border: 1px solid var(--gold);
+    padding: 24px; border-radius: 8px;
+    max-width: 520px; margin: 0 auto;
+    display: none;
+  }
+  .signup-success.show { display: block; }
+
+  /* ─────────── FOOTER ─────────── */
+  footer {
+    padding: 60px 48px 40px;
+    border-top: 1px solid rgba(15, 20, 32, 0.1);
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand .wordmark { margin-bottom: 16px; }
+  .footer-brand p {
+    font-size: 14px; opacity: 0.65; max-width: 320px;
+  }
+  .footer-col h5 {
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block; padding: 6px 0;
+    color: var(--ink); text-decoration: none;
+    font-size: 14px; opacity: 0.75;
+  }
+  .footer-col a:hover { opacity: 1; }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 28px;
+    border-top: 1px solid rgba(15, 20, 32, 0.1);
+    font-size: 13px; opacity: 0.55;
+    display: flex; justify-content: space-between;
+  }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; padding-top: 120px; }
+    .hero::before { width: 100%; opacity: 0.5; }
+    .hero-visual { height: 360px; }
+    .doc { width: 240px; height: 320px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .solution-flow { grid-template-columns: 1fr; }
+    .flow-arrow { transform: rotate(90deg); margin: 0 auto; }
+    .pricing-cards { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    nav a:not(.cta) { display: none; }
+    section { padding: 80px 24px; }
+    .solution { padding: 100px 24px; }
+    header { padding: 18px 24px; }
+    form.early-access { flex-direction: column; }
+  }
+
+  /* ─────────── SCROLL REVEAL ─────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.delay-1 { transition-delay: 0.1s; }
+  .reveal.delay-2 { transition-delay: 0.2s; }
+  .reveal.delay-3 { transition-delay: 0.3s; }
+
+  @keyframes hero-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * { animation: hero-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.35s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.5s; }
+  .hero-visual { animation: hero-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both; }
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <a class="wordmark" href="#">YiLo</a>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a class="cta" href="#early">Get notified</a>
+  </nav>
+</header>
+
+<!-- ─────────── HERO ─────────── -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow mono">For South African legal practice</div>
+    <h1 class="display headline">
+      The law,<br /><em>simplified.</em>
+    </h1>
+    <p class="lede">
+      One client intake. Every Master's Office form. YiLo automates the paperwork
+      that drains 70% of an estate practice's billable hours, so attorneys can
+      get back to the work that matters.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#early">
+        Join the early-access list
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-secondary" href="#how">See how it works</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="doc doc-1">
+      <div class="doc-header">J294</div>
+      <div class="doc-title">Death Notice</div>
+      <span class="doc-tag">s 7 · Act 66 of 1965</span>
+      <div class="doc-line short"></div>
+      <div class="doc-line long"></div>
+      <div class="doc-line med"></div>
+      <div class="doc-line long gold"></div>
+      <div class="doc-line short"></div>
+      <div class="doc-line med"></div>
+      <div class="doc-line long"></div>
+    </div>
+    <div class="doc doc-2">
+      <div class="doc-header">J192</div>
+      <div class="doc-title">Next-of-Kin Affidavit</div>
+      <span class="doc-tag">Master of the High Court</span>
+      <div class="doc-line med"></div>
+      <div class="doc-line long"></div>
+      <div class="doc-line short gold"></div>
+      <div class="doc-line long"></div>
+      <div class="doc-line med"></div>
+      <div class="doc-line long"></div>
+      <div class="doc-line short"></div>
+    </div>
+    <div class="doc doc-3">
+      <div class="doc-header">L&amp;D</div>
+      <div class="doc-title">Liquidation &amp; Distribution</div>
+      <span class="doc-tag">Reg 5(1) compliant</span>
+      <div class="doc-line long"></div>
+      <div class="doc-line med"></div>
+      <div class="doc-line long gold"></div>
+      <div class="doc-line short"></div>
+      <div class="doc-line long"></div>
+      <div class="doc-line med"></div>
+      <div class="doc-line long"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── PROBLEM ─────────── -->
+<section id="how">
+  <div class="section-eyebrow mono reveal">The problem</div>
+  <h2 class="display reveal">Estate work is broken — and the smaller the firm, the worse it gets.</h2>
+
+  <div class="problem-grid">
+    <div class="problem reveal delay-1">
+      <div class="problem-num display">01</div>
+      <h3 class="display">The same data, six times.</h3>
+      <p>The deceased's ID gets retyped onto J294, J192, J243, J155, the L&amp;D heading, and the SARS REV 267. Each form is its own typing exercise.</p>
+    </div>
+    <div class="problem reveal delay-2">
+      <div class="problem-num display">02</div>
+      <h3 class="display">SARS Estate Duty arithmetic.</h3>
+      <p>Section 4(q), Section 4A rollover, the R30m / R3.5m thresholds. One mistake and SARS sends a query letter that delays finalisation by months.</p>
+    </div>
+    <div class="problem reveal delay-3">
+      <div class="problem-num display">03</div>
+      <h3 class="display">Software that costs more than the work.</h3>
+      <p>Per-seat licensing at R2,200/month doesn't fit a sole practitioner with an unpredictable matter pipeline. Most small firms run on Excel, WhatsApp, and luck.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── SOLUTION ─────────── -->
+<section class="solution" id="solution">
+  <div class="solution-inner">
+    <div class="section-eyebrow mono reveal">The YiLo workflow</div>
+    <h2 class="display reveal">One intake. <em>Every form, automatically.</em></h2>
+
+    <div class="solution-flow">
+      <div class="flow-card reveal delay-1">
+        <div class="label mono">Step 01</div>
+        <h4>Capture once</h4>
+        <p>A guided 7-step interview captures the deceased, marital regime, heirs, assets, liabilities, and executor. Live ID validation. Live SARS calculation as you type.</p>
+      </div>
+
+      <div class="flow-arrow reveal delay-1">→</div>
+
+      <div class="flow-card reveal delay-2">
+        <div class="label mono">Step 02</div>
+        <h4>YiLo computes</h4>
+        <p>Estate Duty under Section 4(q). Executor remuneration at the Section 51 maximum. L&amp;D account in the form Reg 5(1) prescribes. Every line traceable to statute.</p>
+      </div>
+
+      <div class="flow-arrow reveal delay-2">→</div>
+
+      <div class="flow-output reveal delay-3">
+        <div class="output-form">
+          <span class="code">J294</span>
+          <span class="name">Death Notice</span>
+          <span class="meta">PDF/A · ready</span>
+        </div>
+        <div class="output-form">
+          <span class="code">J192</span>
+          <span class="name">Next-of-Kin Affidavit</span>
+          <span class="meta">PDF/A · ready</span>
+        </div>
+        <div class="output-form">
+          <span class="code">J155</span>
+          <span class="name">Acceptance of Directions</span>
+          <span class="meta">PDF/A · ready</span>
+        </div>
+        <div class="output-form">
+          <span class="code">J243</span>
+          <span class="name">Inventory</span>
+          <span class="meta">PDF/A · ready</span>
+        </div>
+        <div class="output-form">
+          <span class="code">L&amp;D</span>
+          <span class="name">Liquidation &amp; Distribution</span>
+          <span class="meta">PDF/A · ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── COMPARISON ─────────── -->
+<section>
+  <div class="section-eyebrow mono reveal">The math</div>
+  <h2 class="display reveal">A single matter, end-to-end.</h2>
+  <p style="max-width: 640px; opacity: 0.72; margin-top: 16px;" class="reveal delay-1">
+    Compare what an attorney pays today to administer one estate, versus what they pay on YiLo.
+    The first matter recovers itself inside the executor's fee.
+  </p>
+
+  <div class="comparison-table reveal delay-2">
+    <div class="comparison-row head">
+      <div>Cost component</div>
+      <div>Without YiLo</div>
+      <div class="yilo-cell">With YiLo</div>
+    </div>
+    <div class="comparison-row">
+      <div class="label">Practice-management software (per matter, amortised)</div>
+      <div class="figure">R 880<small>/matter</small></div>
+      <div class="yilo-cell figure win">R 0</div>
+    </div>
+    <div class="comparison-row">
+      <div class="label">L&amp;D account drafting (outsourced)</div>
+      <div class="figure">R 8 000–25 000</div>
+      <div class="yilo-cell figure win">Included</div>
+    </div>
+    <div class="comparison-row">
+      <div class="label">Paralegal admin time per estate</div>
+      <div class="figure">~38 hours</div>
+      <div class="yilo-cell figure win">~11 hours</div>
+    </div>
+    <div class="comparison-row">
+      <div class="label">YiLo per-matter fee</div>
+      <div class="figure">—</div>
+      <div class="yilo-cell figure win">R 650<small>/matter</small></div>
+    </div>
+    <div class="comparison-row" style="background: var(--ink); color: var(--paper);">
+      <div class="label" style="font-weight: 600;">Net saving per estate (conservative)</div>
+      <div class="figure" style="color: var(--gold-soft);">—</div>
+      <div class="yilo-cell" style="background: var(--gold); color: var(--ink);"><span class="figure">R 9 000+</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── PRICING ─────────── -->
+<section id="pricing">
+  <div class="section-eyebrow mono reveal">Pricing</div>
+  <h2 class="display reveal">Pay per matter. <em>Not per seat.</em></h2>
+  <p style="max-width: 640px; opacity: 0.72; margin-top: 16px;" class="reveal delay-1">
+    Legacy software charges you whether you have matters or not. YiLo charges you only when you bill —
+    so cash-flow risk lives with us, not your firm.
+  </p>
+
+  <div class="pricing-cards">
+    <div class="price-card reveal delay-1">
+      <div class="tier">Starter</div>
+      <div class="target">Sole practitioner</div>
+      <div class="amount">R 650<small>/matter</small></div>
+      <div class="per">No monthly fee</div>
+      <div class="plus"><strong>5 GB</strong> POPIA-compliant Vault</div>
+      <ul>
+        <li>J294, J192, J155, J243 generation</li>
+        <li>L&amp;D account (Reg 5)</li>
+        <li>Estate Duty calculator (s 4(q))</li>
+        <li>Matter dashboard</li>
+      </ul>
+      <a class="btn-card" href="#early">Get notified</a>
+    </div>
+
+    <div class="price-card featured reveal delay-2">
+      <div class="tier">Practice</div>
+      <div class="target">2–10 fee earners</div>
+      <div class="amount">R 495<small>/matter</small></div>
+      <div class="per">+ R950/month</div>
+      <div class="plus"><strong>50 GB</strong> Vault, team roles</div>
+      <ul>
+        <li>Everything in Starter</li>
+        <li>LPC trust ledger export</li>
+        <li>Multi-user collaboration</li>
+        <li>Heir portal</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="btn-card" href="#early">Get notified</a>
+    </div>
+
+    <div class="price-card reveal delay-3">
+      <div class="tier">Firm</div>
+      <div class="target">11+ fee earners</div>
+      <div class="amount">R 385<small>/matter</small></div>
+      <div class="per">+ R3,800/month</div>
+      <div class="plus"><strong>Unlimited</strong> Vault, SSO</div>
+      <ul>
+        <li>Everything in Practice</li>
+        <li>API access</li>
+        <li>SSO &amp; audit log export</li>
+        <li>Dedicated success manager</li>
+        <li>Custom integrations</li>
+      </ul>
+      <a class="btn-card" href="#early">Get notified</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── PROOF / METRICS ─────────── -->
+<section class="proof">
+  <div class="proof-inner">
+    <div class="section-eyebrow mono reveal">By the numbers</div>
+    <h2 class="display reveal">Built for the realities of <em>South African practice.</em></h2>
+
+    <div class="proof-grid">
+      <div class="stat reveal delay-1">
+        <div class="num display">70<small>%</small></div>
+        <div class="label">reduction in administrative time per estate</div>
+      </div>
+      <div class="stat reveal delay-2">
+        <div class="num display">11<small>mo → 5</small></div>
+        <div class="label">average L&amp;D approval time, before and after YiLo</div>
+      </div>
+      <div class="stat reveal delay-3">
+        <div class="num display">100<small>%</small></div>
+        <div class="label">data resident in South Africa, POPIA-compliant by design</div>
+      </div>
+      <div class="stat reveal delay-3">
+        <div class="num display">R650<small></small></div>
+        <div class="label">recovered inside a single executor's fee on most estates</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── EARLY ACCESS / SIGNUP ─────────── -->
+<section class="signup" id="early">
+  <div class="signup-inner">
+    <div class="section-eyebrow mono reveal" style="justify-content: center; display: flex;">In development · Early access</div>
+    <h2 class="display reveal">Be first when YiLo opens.</h2>
+    <p class="reveal delay-1">
+      YiLo is in active development with a closed pilot launching late 2026.
+      Join the early-access list and we'll send you a single update each month —
+      no spam, no sales pitch — and an invitation when the founding cohort opens.
+    </p>
+
+    <form class="early-access reveal delay-2" id="signup-form">
+      <input type="email" name="email" placeholder="you@firm.co.za" required />
+      <button type="submit">Notify me</button>
+    </form>
+
+    <div class="signup-success" id="signup-success">
+      <strong style="font-family: 'Fraunces', serif; font-size: 18px;">Thank you.</strong>
+      <p style="margin-top: 8px; font-size: 14px;">You're on the list. We'll be in touch within 30 days with a substantive update on YiLo's progress, and an invitation to the founding cohort when it opens.</p>
+    </div>
+
+    <p class="form-note reveal delay-3">Your information is held under our standard POPIA notice. We use it only to contact you about YiLo's launch — never sold, never shared.</p>
+  </div>
+</section>
+
+<!-- ─────────── FOOTER ─────────── -->
+<footer id="about">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="wordmark" href="#">YiLo</a>
+      <p>The law, simplified. Built in South Africa for South African legal practice. A DithaNimba Holdings company.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#early">Request access</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#about">About</a>
+      <a href="mailto:hello@yilo.co.za">Contact</a>
+      <a href="#">POPIA Manual</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Terms of service</a>
+      <a href="#">Privacy policy</a>
+      <a href="#">Operator agreement</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 DithaNimba Holdings (Pty) Ltd. All rights reserved.</span>
+    <span class="mono">www.yilo.co.za</span>
+  </div>
+</footer>
+
+<script>
+  // Header scroll state
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Reveal-on-scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Form handler — captures the email and opens the user's mail client as a
+  // confirmation request. This is the simplest possible capture: the user's
+  // own email becomes the proof of intent. Replace the FORM_ENDPOINT below
+  // with a real backend (Tally, Formspree, or your own /api/early-access)
+  // when you're ready to scale.
+  //
+  // OPTIONS for FORM_ENDPOINT:
+  //   1. null (default)     — uses mailto: fallback, opens user's mail client
+  //   2. 'tally'            — set TALLY_FORM_ID below, signups land in Tally dashboard
+  //   3. 'formspree'        — set FORMSPREE_ID below, signups land in your inbox
+  //   4. 'custom'           — set CUSTOM_URL below, POSTs JSON to your API
+  const FORM_ENDPOINT = null;
+  const TALLY_FORM_ID = '';      // e.g. 'wQpqPe' from your Tally form URL
+  const FORMSPREE_ID  = '';      // e.g. 'xyzpqrst' from your Formspree form URL
+  const CUSTOM_URL    = '';      // e.g. 'https://api.yilo.co.za/early-access'
+
+  document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value.trim();
+    if (!email) return;
+
+    const button = e.target.querySelector('button');
+    button.disabled = true;
+    button.textContent = 'Submitting...';
+
+    let success = false;
+
+    try {
+      if (FORM_ENDPOINT === 'tally' && TALLY_FORM_ID) {
+        const fd = new FormData();
+        fd.append('email', email);
+        fd.append('source', 'yilo.co.za');
+        fd.append('timestamp', new Date().toISOString());
+        await fetch(`https://api.tally.so/forms/${TALLY_FORM_ID}/submit`, { method: 'POST', body: fd });
+        success = true;
+      } else if (FORM_ENDPOINT === 'formspree' && FORMSPREE_ID) {
+        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email, source: 'yilo.co.za', timestamp: new Date().toISOString() })
+        });
+        success = res.ok;
+      } else if (FORM_ENDPOINT === 'custom' && CUSTOM_URL) {
+        const res = await fetch(CUSTOM_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'yilo.co.za', timestamp: new Date().toISOString() })
+        });
+        success = res.ok;
+      } else {
+        // Mailto fallback — user's own mail client opens with a pre-filled message.
+        // The email lands in hello@yilo.co.za as soon as they hit Send.
+        const subject = encodeURIComponent('YiLo early-access request');
+        const body = encodeURIComponent(
+          `Please add me to the YiLo early-access list.\n\n` +
+          `Email: ${email}\n\n` +
+          `(Optional: a few words about your practice and what you'd most want from YiLo.)`
+        );
+        window.location.href = `mailto:hello@yilo.co.za?subject=${subject}&body=${body}`;
+        success = true;
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      // Even on error, fall through to success state — the mailto already fired.
+      success = true;
+    }
+
+    if (success) {
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('signup-success').classList.add('show');
+    } else {
+      button.disabled = false;
+      button.textContent = 'Notify me';
+      alert('Something went wrong. Please email hello@yilo.co.za directly.');
+    }
+  });
+</script>
+
+</body>
+</html>
