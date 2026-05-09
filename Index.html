@@ -937,7 +937,7 @@
     <div class="footer-col">
       <h5>Company</h5>
       <a href="#about">About</a>
-      <a href="mailto:hello@yilo.co.za">Contact</a>
+      <a href="mailto:mondliwes@gmail.com">Contact</a>
       <a href="#">POPIA Manual</a>
     </div>
     <div class="footer-col">
@@ -982,8 +982,8 @@
   //   2. 'tally'            — set TALLY_FORM_ID below, signups land in Tally dashboard
   //   3. 'formspree'        — set FORMSPREE_ID below, signups land in your inbox
   //   4. 'custom'           — set CUSTOM_URL below, POSTs JSON to your API
-  const FORM_ENDPOINT = null;
-  const TALLY_FORM_ID = '';      // e.g. 'wQpqPe' from your Tally form URL
+  const FORM_ENDPOINT = 'tally';
+  const TALLY_FORM_ID = '';      // e.g. 'Xx1GRP' from your Tally form URL
   const FORMSPREE_ID  = '';      // e.g. 'xyzpqrst' from your Formspree form URL
   const CUSTOM_URL    = '';      // e.g. 'https://api.yilo.co.za/early-access'
 
@@ -1022,14 +1022,14 @@
         success = res.ok;
       } else {
         // Mailto fallback — user's own mail client opens with a pre-filled message.
-        // The email lands in hello@yilo.co.za as soon as they hit Send.
+        // The email lands in mondliwes@gmail.com as soon as they hit Send.
         const subject = encodeURIComponent('YiLo early-access request');
         const body = encodeURIComponent(
           `Please add me to the YiLo early-access list.\n\n` +
           `Email: ${email}\n\n` +
           `(Optional: a few words about your practice and what you'd most want from YiLo.)`
         );
-        window.location.href = `mailto:hello@yilo.co.za?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:mondliwes@gmail.com?subject=${subject}&body=${body}`;
         success = true;
       }
     } catch (err) {
@@ -1044,7 +1044,7 @@
     } else {
       button.disabled = false;
       button.textContent = 'Notify me';
-      alert('Something went wrong. Please email hello@yilo.co.za directly.');
+      alert('Something went wrong. Please email mondliwes@gmail.com directly.');
     }
   });
 </script>
